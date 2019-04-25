@@ -5,7 +5,9 @@ class AdController {
     const ad = await Ad.paginate({}, {
       limit: 20,
       page: req.query.page || 1,
-      sort: '-createdAt'
+      sort: '-createdAt',
+      // defines what relationship should be populated
+      populate: ['author']
     });
 
     return res.json(ad);
