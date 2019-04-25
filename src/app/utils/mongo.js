@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { Schema: { Types: { ObjectId } } } = require('mongoose');
 
 module.exports = {
   mgGetType: type => ({ type, required: true }),
@@ -7,7 +7,7 @@ module.exports = {
     default: Date.now
   },
   mgObjID: ref => ({
-    type: mongoose.Schema.Types.ObjectID,
+    type: ObjectId,
     ref,
     required: true
   })
