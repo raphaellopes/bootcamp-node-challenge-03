@@ -2,9 +2,29 @@ const Ad = require('../models/Ad');
 
 class AdController {
   async index (req, res) {
-    const ad = await Ad.paginate({}, {
+    const { query: { page = 1, price_min, price_max, title } } = req;
+    const filters = {};
+
+    if (price_min || price_max) {
+      filters.price = {};
+
+      if (price_min) {
+        // the $gte is used by mongoose
+        filters.price.$gte = price_min;
+      }
+
+      if (price_max) {
+        filters.price.$lte = price_max;
+      }
+    }
+
+    if (title) {
+      filters.title = new RegExp(title, 'i');
+    }
+
+    const ad = await Ad.paginate(filters, {
       limit: 20,
-      page: req.query.page || 1,
+      page,
       sort: '-createdAt',
       // defines what relationship should be populated
       populate: ['author']
