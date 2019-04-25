@@ -2,8 +2,10 @@
 const express = require('express');
 
 // locals
-const UserController = require('./app/controllers/UserController');
-const SessionController = require('./app/controllers/SessionController');
+const {
+  UserController,
+  SessionController
+} = require('./app/controllers');
 const authMiddleware = require('./app/middlewares/auth');
 
 const routes = express.Router();
