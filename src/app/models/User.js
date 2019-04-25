@@ -5,26 +5,17 @@ const jwt = require('jsonwebtoken');
 
 // locals
 const authConfig = require('../../config/auth');
+const { mgGetType, mgCreatedAt } = require('../utils/mongo');
 
 const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
+  name: mgGetType(String),
   email: {
-    type: String,
-    required: true,
+    ...mgGetType(String),
     unique: true,
     lowercase: true
   },
-  password: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  password: mgGetType(String),
+  createdAt: mgCreatedAt
 });
 
 // save hook is used on create or update
