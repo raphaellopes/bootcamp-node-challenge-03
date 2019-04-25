@@ -34,6 +34,7 @@ UserSchema.methods = {
   }
 };
 
+// statics dont need a instace to be exec
 UserSchema.statics = {
   generateToken ({ id }) {
     return jwt.sign({ id }, authConfig.secret, {
