@@ -67,7 +67,13 @@ class AdController {
 
   async accept_buy (req, res) {
     const { id: ad } = req.params;
-    const purchase = await Purchase.findOne({ ad });
+    const purchase = await Purchase.findOne({ ad }).populate({
+      path: 'ad'
+    });
+
+    if (!purchase.ad.author._id.equals(req.userId)) {
+      return res.status(401).json({ error: "You're not the ad author" });
+    }
 
     await Ad.findByIdAndUpdate(ad, { purchasedBy: purchase._id });
 

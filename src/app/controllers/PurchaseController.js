@@ -12,7 +12,9 @@ class PurchaseController {
     const user = await User.findById(userId);
 
     if (await Purchase.findOne({ ad })) {
-      return res.status(400).json(errorMessage('Purchase already exists'));
+      return res
+        .status(400)
+        .json(errorMessage('This Ad had already been purchased'));
     }
     await Purchase.create({ ad, user: userId });
 
