@@ -16,6 +16,7 @@
     "start": "nodemon src/index.js"
   },
   "dependencies": {
+    "@sentry/node": "^5.1.0",
     "bcrypt": "^3.0.6",
     "express": "^4.16.4",
     "express-async-handler": "^1.1.4",

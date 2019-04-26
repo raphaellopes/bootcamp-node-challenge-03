@@ -1,12 +1,14 @@
 // vendors
 const express = require('express');
 const mongoose = require('mongoose');
-const databaseConfig = require('./config/database');
 const validate = require('express-validation');
 const Youch = require('youch');
+const Sentry = require('@sentry/node');
 
 // local
 const routes = require('./routes');
+const databaseConfig = require('./config/database');
+const sentryConfig = require('./config/sentry');
 
 class App {
   constructor () {
@@ -15,10 +17,15 @@ class App {
 
     this.database();
     this.middlewares();
+    this.sentry();
     this.routes();
 
     // @NOTE: The exception needs to execute after routes settings
     this.exception();
+  }
+
+  sentry () {
+    Sentry.init(sentryConfig);
   }
 
   database () {
@@ -29,6 +36,7 @@ class App {
   }
 
   middlewares () {
+    this.express.use(Sentry.Handlers.requestHandler());
     this.express.use(express.json());
   }
 
@@ -37,6 +45,10 @@ class App {
   }
 
   exception () {
+    if (process.env.NOTE === 'production') {
+      this.express.use(Sentry.Handlers.errorHandler());
+    }
+
     // @NOTE: When the middleware recieves four parameters, the first one
     // is the error
     this.express.use(async (err, req, res, next) => {
