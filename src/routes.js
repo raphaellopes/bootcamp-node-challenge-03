@@ -5,7 +5,8 @@ const express = require('express');
 const {
   UserController,
   SessionController,
-  AdController
+  AdController,
+  PurchaseController
 } = require('./app/controllers');
 const authMiddleware = require('./app/middlewares/auth');
 
@@ -21,5 +22,8 @@ routes.get('/ads/:id', AdController.show);
 routes.post('/ads', AdController.store);
 routes.put('/ads/:id', AdController.update);
 routes.delete('/ads/:id', AdController.destroy);
+
+// Purchases
+routes.post('/purchases', PurchaseController.store);
 
 module.exports = routes;
