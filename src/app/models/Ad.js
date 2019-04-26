@@ -10,6 +10,10 @@ const AdSchema = new mongoose.Schema({
   description: mgGetType(String),
   author: mgObjID('User'),
   price: mgGetType(Number),
+  purchasedBy: {
+    ...mgObjID('Purchase'),
+    required: false
+  },
   createdAt: mgCreatedAt
 });
 

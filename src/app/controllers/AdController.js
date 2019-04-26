@@ -1,4 +1,5 @@
 const Ad = require('../models/Ad');
+const Purchase = require('../models/Purchase');
 
 class AdController {
   async index (req, res) {
@@ -22,6 +23,8 @@ class AdController {
       filters.title = new RegExp(title, 'i');
     }
 
+    filters.purchasedBy = null;
+
     const ad = await Ad.paginate(filters, {
       limit: 20,
       page,
@@ -40,7 +43,6 @@ class AdController {
   }
 
   async store (req, res) {
-    throw new Error();
     const ad = await Ad.create({
       ...req.body,
       author: req.userId
@@ -61,6 +63,15 @@ class AdController {
     await Ad.findByIdAndDelete(req.params.id);
 
     return res.send();
+  }
+
+  async accept_buy (req, res) {
+    const { id: ad } = req.params;
+    const purchase = await Purchase.findOne({ ad });
+
+    await Ad.findByIdAndUpdate(ad, { purchasedBy: purchase._id });
+
+    return res.json(purchase);
   }
 }
 

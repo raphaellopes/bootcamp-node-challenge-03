@@ -17,7 +17,7 @@ routes.post(
 );
 routes.post(
   '/sessions',
-  validate(validators.User),
+  validate(validators.Session),
   handle(controllers.SessionController.store)
 );
 
@@ -36,6 +36,10 @@ routes.put(
   handle(controllers.AdController.update)
 );
 routes.delete('/ads/:id', handle(controllers.AdController.destroy));
+routes.post(
+  '/ads/:id/accept_buy',
+  handle(controllers.AdController.accept_buy)
+);
 
 // Purchases
 routes.post(
