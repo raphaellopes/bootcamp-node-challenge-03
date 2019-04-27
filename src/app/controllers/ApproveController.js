@@ -20,6 +20,8 @@ class ApproveController {
 
     ad.purchasedBy = purchase;
 
+    await ad.save();
+
     return res.json(ad);
   }
 }
