@@ -36,16 +36,16 @@ routes.put(
   handle(controllers.AdController.update)
 );
 routes.delete('/ads/:id', handle(controllers.AdController.destroy));
-routes.post(
-  '/ads/:id/accept_buy',
-  handle(controllers.AdController.accept_buy)
-);
 
 // Purchases
 routes.post(
   '/purchases',
   validate(validators.Purchase),
   handle(controllers.PurchaseController.store)
+);
+routes.put(
+  '/purchases/:purchase',
+  handle(controllers.ApproveController.update)
 );
 
 module.exports = routes;

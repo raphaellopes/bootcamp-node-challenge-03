@@ -71,10 +71,6 @@ class AdController {
       path: 'ad'
     });
 
-    if (!purchase.ad.author._id.equals(req.userId)) {
-      return res.status(401).json({ error: "You're not the ad author" });
-    }
-
     await Ad.findByIdAndUpdate(ad, { purchasedBy: purchase._id });
 
     return res.json(purchase);
